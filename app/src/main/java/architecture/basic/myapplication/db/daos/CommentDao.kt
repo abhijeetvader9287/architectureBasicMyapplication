@@ -10,8 +10,7 @@ import architecture.basic.myapplication.db.entities.CommentEntity
 @Dao
 interface CommentDao {
     @Query("Select * from comments where productId=:productId")
-    fun loadComments(productId: Int):LiveData<List<CommentEntity>>
-
+    fun loadComments(productId: Int): LiveData<List<CommentEntity>>
 
     @Query("SELECT * FROM comments where productId = :productId")
     fun loadCommentsSync(productId: Int): List<CommentEntity>

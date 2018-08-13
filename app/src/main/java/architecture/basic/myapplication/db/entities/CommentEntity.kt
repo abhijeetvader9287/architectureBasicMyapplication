@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "comments", foreignKeys = arrayOf(ForeignKey(entity = ProductEntity::class, parentColumns = arrayOf("id"), childColumns = arrayOf("productId"), onDelete = ForeignKey.CASCADE)), indices = arrayOf(Index(value = "productId")))
 class CommentEntity {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var productId: Int = 0
     var text: String? = null
