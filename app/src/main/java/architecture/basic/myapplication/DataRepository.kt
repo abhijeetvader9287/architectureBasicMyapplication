@@ -6,7 +6,7 @@ import architecture.basic.myapplication.db.AppDatabase
 import architecture.basic.myapplication.db.entities.CommentEntity
 import architecture.basic.myapplication.db.entities.ProductEntity
 
-class DataRepository private constructor(private val mDatabase: AppDatabase) {
+class DataRepository private constructor(private val mDatabase: AppDatabase?) {
     private val mObservableProducts: LiveData<List<ProductEntity>>
     /**
      * Get the list of products from the database and get notified when the data changes.
@@ -17,7 +17,7 @@ class DataRepository private constructor(private val mDatabase: AppDatabase) {
     init {
         mObservableProducts = MediatorLiveData()
 
-        mObservableProducts.addSource(mDatabase.productDao().loadAllProducts(),
+        mObservableProducts.addSource(mDatabase?.productDao()?.loadAllProducts() as LiveData<List<ProductEntity>>,
                 { productEntities ->
                     if (mDatabase.databaseCreated.getValue() != null) {
                         mObservableProducts.postValue(productEntities)
@@ -25,12 +25,12 @@ class DataRepository private constructor(private val mDatabase: AppDatabase) {
                 })
     }
 
-    fun loadProduct(productId: Int): LiveData<ProductEntity> {
-        return mDatabase.productDao().loadProduct(productId)
+    fun loadProduct(productId: Int): LiveData<ProductEntity>? {
+        return mDatabase?.productDao()?.loadProduct(productId)
     }
 
-    fun loadComments(productId: Int): LiveData<List<CommentEntity>> {
-        return mDatabase.commentDao().loadComments(productId)
+    fun loadComments(productId: Int): LiveData<List<CommentEntity>>? {
+        return mDatabase?.commentDao()?.loadComments(productId)
     }
 
     companion object {
