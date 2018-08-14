@@ -1,18 +1,22 @@
 package architecture.basic.myapplication
 
 import android.app.Application
-import architecture.basic.myapplication.db.AppDatabase
+import architecture.basic.myapplication.db.MyDatabase
 
 class BasicApp : Application() {
-    private var mAppExecutors: AppExecutors? = null
-    val database: AppDatabase?
-        get() = AppDatabase.getInstance(this, mAppExecutors)
-    val repository: DataRepository?
-        get() = DataRepository.getInstance(database)
+
+    lateinit var database: MyDatabase
+
+    lateinit var repository: DataRepository
+
 
     override fun onCreate() {
         super.onCreate()
 
-        mAppExecutors = AppExecutors()
+
+        database = MyDatabase.getAppDatabase(this)
+        repository = DataRepository.getInstance(database)!!
     }
+
+
 }

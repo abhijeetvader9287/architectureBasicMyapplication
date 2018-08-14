@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -38,15 +40,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
-
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
-
-    // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
-
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation "androidx.room:room-guava:$room_version"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
+    implementation 'androidx.cardview:cardview:1.0.0-alpha1'
+    implementation 'androidx.room:room-runtime:2.0.0-alpha1'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0-alpha1'
+    kapt 'androidx.room:room-compiler:2.0.0-alpha1'
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
@@ -62,7 +60,7 @@ dependencies {
     // alternatively - Lifecycles only (no ViewModel or LiveData). Some UI
     //     AndroidX libraries use this lightweight import for Lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
-
+    implementation "org.jetbrains.anko:anko:0.10.4"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // use kapt for Kotlin
     // alternately - if using Java8, use the following instead of lifecycle-compiler
