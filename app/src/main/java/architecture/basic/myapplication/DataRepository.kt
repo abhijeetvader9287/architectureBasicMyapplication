@@ -19,9 +19,9 @@ class DataRepository private constructor(private val mDatabase: AppDatabase?) {
 
         mObservableProducts.addSource(mDatabase?.productDao()?.loadAllProducts() as LiveData<List<ProductEntity>>,
                 { productEntities ->
-                    if (mDatabase.databaseCreated.getValue() != null) {
+
                         mObservableProducts.postValue(productEntities)
-                    }
+
                 })
     }
 

@@ -17,7 +17,7 @@ import architecture.basic.myapplication.db.daos.ProductDao
 import architecture.basic.myapplication.db.entities.CommentEntity
 import architecture.basic.myapplication.db.entities.ProductEntity
 
-@Database(entities = arrayOf(ProductEntity::class, CommentEntity::class), version = 1)
+@Database(entities = arrayOf( ProductEntity::class, CommentEntity::class ), version = 1)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     private val mIsDatabaseCreated = MutableLiveData<Boolean>()
@@ -48,7 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
             if (sInstance == null) {
                 synchronized(AppDatabase::class.java) {
                     if (sInstance == null) {
-                        sInstance = buildDatabase(context.applicationContext, executors)
+                        sInstance = buildDatabase(context.applicationContext, executors!!)
                         sInstance!!.updateDatabaseCreated(context.applicationContext)
                     }
                 }
@@ -62,12 +62,12 @@ abstract class AppDatabase : RoomDatabase() {
          * The SQLite database is only created when it's accessed for the first time.
          */
         private fun buildDatabase(appContext: Context,
-                                  executors: AppExecutors?): AppDatabase {
+                                  executors: AppExecutors): AppDatabase {
             return Room.databaseBuilder(appContext, AppDatabase::class.java, DATABASE_NAME)
                     .addCallback(object : Callback() {
-                        override fun onCreate(@NonNull db: SupportSQLiteDatabase) {
+                     override   fun onCreate(@NonNull db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            executors?.diskIO()?.execute({
+                            executors.diskIO().execute({
                                 // Add a delay to simulate a long-running operation
                                 addDelay()
                                 // Generate the data for pre-population
