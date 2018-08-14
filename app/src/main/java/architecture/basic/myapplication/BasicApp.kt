@@ -1,11 +1,11 @@
 package architecture.basic.myapplication
 
 import android.app.Application
-import architecture.basic.myapplication.db.MyDatabase
+import architecture.basic.myapplication.db.AppDatabase
 
 class BasicApp : Application() {
-
-    lateinit var database: MyDatabase
+    private var mAppExecutors: AppExecutors? = null
+    lateinit var database: AppDatabase
 
     lateinit var repository: DataRepository
 
@@ -13,10 +13,12 @@ class BasicApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
-        database = MyDatabase.getAppDatabase(this)
-        repository = DataRepository.getInstance(database)!!
+        mAppExecutors = AppExecutors()
+        database = AppDatabase.getInstance(this, this!!.mAppExecutors)!!
+        repository= DataRepository.getInstance(database)!!
     }
-
-
 }
+
+
+
+
